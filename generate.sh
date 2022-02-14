@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# install apache server
+yum update -y
+yum install -y httpd 
+systemctl start httpd
+systemctl enable httpd
+
+# prepare index.html
 wget https://raw.githubusercontent.com/artur-sobczyk/ec2-demo/main/template.html
 
 export INSTANCE_ID=`curl http://169.254.169.254/latest/meta-data/instance-id`
@@ -11,8 +18,11 @@ export AZ=`curl http://169.254.169.254/latest/meta-data/placement/availability-z
 export AZ_ID=`curl http://169.254.169.254/latest/meta-data/placement/availability-zone-id`
 export SUBNET=`curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/$MAC/subnet-id`
 
-export VERSION="1.0.0"
+export VERSION="${CUSTOM_VERSION:-1.0.0}"
 export DATE=`date --utc +%FT%T%Z`
 
 envsubst < template.html | tee index.html
+
+# place index.html
+cp index.html /var/www/html/index.html
 
