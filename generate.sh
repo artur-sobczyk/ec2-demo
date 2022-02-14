@@ -1,5 +1,7 @@
 #!/bin/bash
 
+wget https://raw.githubusercontent.com/artur-sobczyk/ec2-demo/main/template.html
+
 export INSTANCE_ID=`curl http://169.254.169.254/latest/meta-data/instance-id`
 export INSTANCE_TYPE=`curl http://169.254.169.254/latest/meta-data/instance-type`
 export PUBLIC_IP=`curl http://169.254.169.254/latest/meta-data/public-ipv4`
